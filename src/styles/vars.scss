@@ -1,0 +1,72 @@
+@import './theme.scss';
+//头部
+$header-height: 60px;
+$header-background-color:$theme-color;
+$header-text-color: #fff;
+$header-text-size: 14px;
+$header-title-color: #fff;
+$header-title-size: 22px;
+$header-title-weight: bold;
+$header-logo-width: 40px;
+
+//顶部导航菜单
+$navMenu-height: 50px;
+$navMenu-background-color: #fff;
+$navMenu-text-color: #515A6E;
+$navMenu-active-text-color: $theme-color;
+$navMenu-text-size: 14px;
+$navMenu-text-weight: bold;
+
+//侧边导航菜单
+$sideBar-width: 230px;
+$sideBar-item-height: 60px;
+$sideBar-icon-color: #4B5366;
+$sideBar-text-color:#4B5366;
+$sideBar-active-text-color:$theme-color;
+$sideBar-background-color: #fff;
+$sideBar-hover-color:#E7F5FF;
+$sideBar-active-background-color: #fff;
+
+$sideBarItem-active-text-color: $theme-color;
+$sideBarItem-background-color:#fff;
+$sideBarItem-hover-color:#E7F5FF;
+$sideBarItem-active-background-color: #E7F5FF;
+$sideBarItem-active-right-style-color: $theme-color;
+$sideBarItem-active-right-style-width: 2px;
+
+// 内容区域
+$main-background-color: $main-background-color;
+$main-title-height: 55px;
+$main-title-color: $default-text-color;
+
+// 公共容器
+$container-padding: 30px;
+$main-padding: 20px;
+$container-background-color: transparent;
+
+// dialog弹框
+
+$dialog-round: 20px;
+$dialog-container-padding: 30px $dialog-round;
+
+$dialogHeader-background-color: #F9FAFB;
+$dialogHeader-height: 50px;
+$dialogHeader-text-color: #4B5366;
+$dialogHeader-text-size: 14px;
+
+$dialogFooterButton-padding: 7px 27px;
+
+:export {
+  headerHeight: $header-height;
+  navMenuBackgroundColor: $navMenu-background-color;
+  navMenuTextColor: $navMenu-text-color;
+  navMenuActiveTextColor: $navMenu-active-text-color;
+  menuText: $sideBar-text-color;
+  menuActiveText: $sideBar-active-text-color;
+  subMenuActiveText: $sideBarItem-active-text-color;
+  menuBg: $sideBar-background-color;
+  menuHover: $sideBar-hover-color;
+  subMenuBg: $sideBarItem-background-color;
+  subMenuHover: $sideBarItem-hover-color;
+  sideBarWidth: $sideBar-width;
+}
