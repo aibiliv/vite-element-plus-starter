@@ -1,7 +1,6 @@
 <template>
   <el-container>
     <el-header>
-      <!-- <Header v-model:collapse="isCollapse"></Header> -->
       <Header></Header>
     </el-header>
     <el-container>
@@ -26,7 +25,7 @@ import SideBar from './components/sideBar/index.vue'
 let isCollapse = ref(false)
 
 let toggle = () => {
-  isCollapse = !isCollapse
+  isCollapse.value = !isCollapse.value
 }
 </script>
 
