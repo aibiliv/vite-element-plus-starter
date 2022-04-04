@@ -6,6 +6,8 @@
 </template>
 
 <script setup lang="ts">
+console.log('ssss', import.meta.env)
+
 const router = useRouter()
 let goDetail = () => {
   console.log('router', router.getRoutes())
