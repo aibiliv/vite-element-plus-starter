@@ -4,12 +4,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .header {
-  height: 60px;
+  height: $header-height;
   padding: 0 20px;
   background-color: $header-background-color;
   border-bottom: 1px solid $header-background-color;

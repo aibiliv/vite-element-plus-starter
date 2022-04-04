@@ -1,7 +1,7 @@
 <template>
-  <div style="width:200px">
-    <!-- <MenuTree :menus="menus" defaultActive="2"></MenuTree> -->
-    <InfinityMenuTree :menus="menus2" defaultActive="3-1-1-1"></InfinityMenuTree>
+  <div>
+    <!-- <MenuTree :menus="menus2" defaultActive="3-1-1-1"></MenuTree> -->
+    菜单页
   </div>
 </template>
 
@@ -70,5 +70,4 @@ let menus2 = [
 ]
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

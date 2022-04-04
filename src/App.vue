@@ -20,7 +20,7 @@ html,
 body,
 #app,
 .el-container,
-.el-menu {
+.el-aside {
   height: 100%;
 }
 </style>
