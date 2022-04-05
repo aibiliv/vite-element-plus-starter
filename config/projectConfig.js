@@ -5,7 +5,7 @@ const config = {
     id: 1,
     accessUserType: 2,
     name: '系统管理',
-    entry: './src/subProjects/system/main.js',
+    entry: '/src/subProjects/system/main.ts',
     localPath: 'src/subProjects/system',
     publicPath: '/system-web/',
     apiContext: '/envAdmin'
@@ -13,7 +13,7 @@ const config = {
   yexin: {
     id: 2,
     name: '电子商务部管理系统',
-    entry: './src/subProjects/yexin/main.js',
+    entry: '/src/subProjects/yexin/main.ts',
     localPath: 'src/subProjects/yexin',
     publicPath: '/yexin-web/',
     apiContext: '/envAdmin'

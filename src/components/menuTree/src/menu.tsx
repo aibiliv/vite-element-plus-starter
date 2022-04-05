@@ -64,10 +64,16 @@ export default defineComponent({
           }
         }
         // 递归渲染子菜单
-        if (item[props.children] && item[props.children].length) {
+        if (
+          item[props.children] &&
+          item[props.children].length &&
+          item[props.children].filter((child: any) => {
+            return !child.hidden
+          }).length === item[props.children].length
+        ) {
           return (
             <el-sub-menu index={item[props.index]} v-slots={slots}>
-              {renderMenu(item[props.children])}
+              {renderMenu(item[props.children].filter((child: any) => !child.hidden))}
             </el-sub-menu>
           )
         }
