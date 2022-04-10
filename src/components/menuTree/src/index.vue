@@ -8,16 +8,16 @@
     <div v-for="(item, i) in menus" :key="i">
       <el-menu-item v-if="!item.children || !item.children.length" :index="item[index]">
         <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
-        <span>{{ item[name] }}</span>
+        <span>{{ item[title] }}</span>
       </el-menu-item>
       <el-sub-menu v-if="item.children && item.children.length" :index="item[index]">
         <template #title>
           <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
-          <span>{{ item[name] }}</span>
+          <span>{{ item[title] }}</span>
         </template>
-        <el-menu-item v-for="(child, index1) in item.children" :key="index1" :index="child.index1">
+        <el-menu-item v-for="(child, index1) in item.children" :key="index1" :index="child[index]">
           <!-- <component v-if="child[icon]" :is="`el-icon-${toLine(child[icon])}`"></component> -->
-          <span>{{ child[name] }}</span>
+          <span>{{ child[title] }}</span>
         </el-menu-item>
       </el-sub-menu>
     </div>
@@ -42,9 +42,9 @@ let props = defineProps({
     default: false
   },
   //键名
-  name: {
+  title: {
     type: String,
-    default: 'name'
+    default: 'title'
   },
   index: {
     type: String,

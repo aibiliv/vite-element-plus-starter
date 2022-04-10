@@ -50,7 +50,7 @@ export default defineComponent({
       }
     }
     let renderMenu = (data: any[]) => {
-      return data.map((item: any) => {
+      return data.map((item: any, index: number) => {
         item.i = (Icons as any)[item[props.icon!]]
         // 处理插槽
         let slots = {
@@ -72,7 +72,7 @@ export default defineComponent({
           }).length === item[props.children].length
         ) {
           return (
-            <el-sub-menu index={item[props.index]} v-slots={slots}>
+            <el-sub-menu index={item[props.index]} v-slots={slots} key={item[props.index]}>
               {renderMenu(item[props.children].filter((child: any) => !child.hidden))}
             </el-sub-menu>
           )
@@ -81,6 +81,7 @@ export default defineComponent({
         return (
           <el-menu-item
             index={item[props.index]}
+            key={item[props.index]}
             onClick={() => {
               handleClick(item)
             }}

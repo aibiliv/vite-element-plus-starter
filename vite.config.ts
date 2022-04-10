@@ -1,6 +1,7 @@
 import path from 'path'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import react from '@vitejs/plugin-react'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import VueJsx from '@vitejs/plugin-vue-jsx'
@@ -48,6 +49,7 @@ export default defineConfig(({ command, mode }) => {
         },
         vue(),
         VueJsx(),
+        react(),
         AutoImport({
           imports: ['vue', 'vue-router'],
           dts: 'src/auto-imports.d.ts'

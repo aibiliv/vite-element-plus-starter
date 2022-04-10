@@ -6,6 +6,8 @@
     :defaultActive="$route.path"
     index="path"
     name="name"
+    title="title"
+    icon="icon"
   ></MenuTree>
 </template>
 

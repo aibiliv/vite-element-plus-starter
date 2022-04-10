@@ -18,7 +18,6 @@ const routes: any[] = [
       {
         title: '表格管理',
         path: basePath + '/table',
-        // redirect: basePath + '/table/tableList',
         icon: 'Document',
         name: 'table',
         component: () => import('../views/table/index.vue'),
@@ -30,14 +29,6 @@ const routes: any[] = [
             name: 'tableList',
             hidden: true,
             component: () => import('../views/table/index.vue')
-          },
-          {
-            title: '表格详情',
-            path: basePath + '/table/tableDetail',
-            icon: 'Document',
-            name: 'tableDetail',
-            hidden: true,
-            component: () => import('../views/table/detail.vue')
           }
         ]
       },
