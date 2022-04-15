@@ -47,7 +47,6 @@ let toggle = () => {
 }
 .el-main {
   border-top: 1px solid $header-background-color;
-  background-color: aqua;
 }
 .collapse-div {
   display: flex;
