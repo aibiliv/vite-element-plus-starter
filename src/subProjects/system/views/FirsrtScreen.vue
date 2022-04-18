@@ -71,7 +71,7 @@ const jumpUrl = (item) => {
   font-size: 18px;
 }
 .app-list {
-  height: calc(100% - $header-height - 2);
+  height: calc(100% - $header-height);
   display: flex;
   justify-content: center;
   align-items: center;
