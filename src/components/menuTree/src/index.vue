@@ -1,10 +1,5 @@
 <template>
-  <el-menu
-    class="el-menu-vertical-demo"
-    :defaultActive="defaultActive"
-    :router="router"
-    v-bind="$attrs"
-  >
+  <el-menu class="menu-tree" :defaultActive="defaultActive" :router="router" v-bind="$attrs">
     <div v-for="(item, i) in menus" :key="i">
       <el-menu-item v-if="!item.children || !item.children.length" :index="item[index]">
         <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
@@ -62,10 +57,7 @@ let props = defineProps({
 </script>
 
 <style lang="scss" scoped>
-svg {
-  margin-right: 6px;
-}
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.menu-tree:not(.el-menu--collapse) {
   width: 200px;
 }
 </style>

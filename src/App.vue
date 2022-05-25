@@ -4,8 +4,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
 * {
@@ -13,7 +12,7 @@
   padding: 0;
 }
 svg {
-  width: 1em;
+  width: 1.5em;
   height: 1em;
 }
 html,

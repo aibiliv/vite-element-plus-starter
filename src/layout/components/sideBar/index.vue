@@ -38,8 +38,26 @@ let menus = [
         icon: 'document'
       }
     ]
+  },
+  {
+    title: '系统',
+    name: '系统',
+    index: '3',
+    icon: 'ChatLineRound',
+    children: [
+      {
+        title: '角色',
+        name: 'menu',
+        index: '/systemConfig/role',
+        icon: 'document'
+      }
+    ]
   }
 ]
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+::v-deep svg {
+  width: 2em;
+}
+</style>

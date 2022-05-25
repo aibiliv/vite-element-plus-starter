@@ -6,9 +6,7 @@
     <el-container>
       <el-aside width="auto">
         <div class="collapse-div">
-          <span :class="isCollapse ? 'hide-user' : 'user-name'"
-            >你好，aibiliv</span
-          >
+          <span :class="isCollapse ? 'hide-user' : 'user-name'">你好，aibiliv</span>
           <span @click="toggle">
             <el-icon-expand v-if="isCollapse"></el-icon-expand>
             <el-icon-fold v-else></el-icon-fold>
@@ -17,7 +15,13 @@
         <SideBar :collapse="isCollapse"></SideBar>
       </el-aside>
       <el-main>
-        <router-view></router-view>
+        <NavMenu></NavMenu>
+        <Breadcrumb></Breadcrumb>
+        <div class="main-container">
+          <div class="viewport">
+            <router-view></router-view>
+          </div>
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -26,6 +30,8 @@
 <script setup lang="ts">
 import Header from './components/header/index.vue'
 import SideBar from './components/sideBar/index.vue'
+import Breadcrumb from './components/breadcrumb/index.vue'
+import NavMenu from './components/navMenu/index.vue'
 
 let isCollapse = ref(false)
 
@@ -42,18 +48,32 @@ let toggle = () => {
 .el-aside {
   border-top: 1px solid $header-background-color;
   .el-menu {
-    height: calc(100% - 32px);
+    height: calc(100% - $navMenu-height - 1px);
   }
 }
 .el-main {
   border-top: 1px solid $header-background-color;
+  padding: 0;
+  height: $main-height;
+  .main-container {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: $main-background-color;
+    height: calc(100vh - $navMenu-height - $header-height - $breadcrumb-height - 3px);
+    .viewport {
+      overflow: auto;
+      height: 100%;
+      border: 1px solid $border-color;
+    }
+  }
 }
 .collapse-div {
   display: flex;
   justify-content: space-around;
-  line-height: 32px;
-  height: 32px;
-  border-right: 1px solid #dcdfe6;
+  line-height: calc($navMenu-height);
+  height: calc($navMenu-height);
+  border-right: 1px solid $border-color;
   background-color: $sideBarItem-hover-color;
   .user-name {
     font-size: 14px;
