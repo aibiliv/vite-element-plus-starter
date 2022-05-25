@@ -57,7 +57,7 @@ let menus = [
 </script>
 
 <style lang="scss" scoped>
-::v-deep svg {
+:deep(svg) {
   width: 2em;
 }
 </style>

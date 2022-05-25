@@ -56,7 +56,7 @@ const handleTabsEdit = (targetName: string, action: 'remove' | 'add') => {
 }
 </script>
 <style lang="scss" scoped>
-::v-deep.nav-menu.el-tabs {
+:deep.nav-menu.el-tabs {
   .el-tabs__new-tab {
     box-sizing: border-box;
   }
