@@ -1,10 +1,10 @@
 <template>
-  <MenuTree :menus="menus" router :collapse="collapse" :defaultActive="$route.path"></MenuTree>
+  <MenuTree :menus="menus" router :collapse="collapse" title="name" index="url" :defaultActive="$route.path"></MenuTree>
 </template>
 
 <script setup lang="ts">
 let props = defineProps<{ collapse: boolean }>()
-let menus = [
+const arr = [
   {
     title: '首页',
     name: 'home',
@@ -16,14 +16,6 @@ let menus = [
     name: 'table',
     index: '/table',
     icon: 'Document'
-    // children: [
-    //   {
-    //     title: '菜单1',
-    //     name: 'tabledetail',
-    //     index: '/',
-    //     icon: 'document'
-    //   }
-    // ]
   },
   {
     title: '菜单',
@@ -54,6 +46,14 @@ let menus = [
     ]
   }
 ]
+let menus = ref(arr)
+const api = inject('$api')
+const getMenu = async () => {
+  const res = await api.menu.findMenuTreeSideBar()
+  sessionStorage.setItem('menuTree', JSON.stringify(res.data))
+  menus.value = res.data
+}
+getMenu()
 </script>
 
 <style lang="scss" scoped>

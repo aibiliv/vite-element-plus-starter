@@ -1,12 +1,10 @@
 import { App } from 'vue'
-import menuTree from "./menuTree";
+import MenuTree from './menuTree'
 
-const components = [
-    menuTree
-]
+const components = [MenuTree]
 
 export default {
-    install(app: App) {
-        components.map((item) => app.use(item))
-    }
+  install(app: App) {
+    components.map((item) => app.use(item))
+  }
 }

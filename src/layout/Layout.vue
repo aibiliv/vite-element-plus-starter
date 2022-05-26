@@ -18,8 +18,10 @@
         <NavMenu></NavMenu>
         <Breadcrumb></Breadcrumb>
         <div class="main-container">
-          <div class="viewport">
-            <router-view></router-view>
+          <div class="app-main">
+            <transition name="fade-transform" mode="out-in">
+              <router-view></router-view>
+            </transition>
           </div>
         </div>
       </el-main>
@@ -47,8 +49,13 @@ let toggle = () => {
 }
 .el-aside {
   border-top: 1px solid $header-background-color;
+  border-right: 1px solid $border-color;
+
   .el-menu {
-    height: calc(100% - $navMenu-height - 1px);
+    max-height: calc(100vh - $header-height - $navMenu-height - 1px);
+    border: none;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 .el-main {
@@ -61,10 +68,11 @@ let toggle = () => {
     box-sizing: border-box;
     background-color: $main-background-color;
     height: calc(100vh - $navMenu-height - $header-height - $breadcrumb-height - 3px);
-    .viewport {
+    .app-main {
       overflow: auto;
       height: 100%;
       border: 1px solid $border-color;
+      background-color: #fff;
     }
   }
 }

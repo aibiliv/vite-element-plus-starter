@@ -16,7 +16,7 @@
   height: $breadcrumb-height;
   box-sizing: border-box;
   padding: 10px 20px;
-  border: 1px solid $border-color;
-  border-top: 0;
+  border-bottom: 1px solid $border-color;
+  // border-top: 0;
 }
 </style>

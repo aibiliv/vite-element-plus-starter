@@ -1,5 +1,5 @@
 <template>
-  <el-menu class="menu-tree" :defaultActive="defaultActive" :router="router" v-bind="$attrs">
+  <el-menu class="menu-tree" :unique-opened="true" :defaultActive="defaultActive" :router="router" v-bind="$attrs">
     <div v-for="(item, i) in menus" :key="i">
       <el-menu-item v-if="!item.children || !item.children.length" :index="item[index]">
         <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
@@ -53,6 +53,9 @@ let props = defineProps({
     type: String,
     default: 'children'
   }
+})
+export default defineComponent({
+  name: 'MenuTree'
 })
 </script>
 

@@ -5,15 +5,27 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: Layout,
-
+    redirect: '/welcome',
     children: [
       {
-        path: '/',
+        path: '/welcome',
         component: Home
       },
       {
         path: '/menu',
         component: () => import('../views/menu/index.vue')
+      },
+      {
+        path: '/approvalManagement',
+        redirect: '/approvalManagement/projectApproval/index',
+        component: () => import('../views/approvalManagement/projectApproval/index.vue'),
+        children: [
+          {
+            path: '/approvalManagement/projectApproval/index',
+            component: () => import('../views/approvalManagement/projectApproval/index.vue'),
+            alias: '/home'
+          }
+        ]
       },
       {
         path: '/table',
