@@ -1,11 +1,18 @@
 <template>
   <div class="header">
     <div>后台管理系统</div>
-    <div>用户名</div>
+    <div @click="logout">登出</div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const router = useRouter()
+const logout = () => {
+  router.push({
+    name: 'login'
+  })
+}
+</script>
 
 <style lang="scss" scoped>
 .header {

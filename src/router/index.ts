@@ -3,6 +3,15 @@ import Layout from '../layout/Layout.vue'
 import Home from '../views/Home.vue'
 const routes: RouteRecordRaw[] = [
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/Login.vue')
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/errorPage/404.vue')
+  },
+  {
     path: '/',
     component: Layout,
     redirect: '/welcome',
@@ -16,14 +25,25 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/menu/index.vue')
       },
       {
-        path: '/approvalManagement',
-        redirect: '/approvalManagement/projectApproval/index',
+        path: '',
+        name: 'approvalManagement_projectApproval',
         component: () => import('../views/approvalManagement/projectApproval/index.vue'),
         children: [
           {
-            path: '/approvalManagement/projectApproval/index',
-            component: () => import('../views/approvalManagement/projectApproval/index.vue'),
-            alias: '/home'
+            path: '',
+            name: 'approvalManagement_projectApproval',
+            component: () => import('../views/approvalManagement/projectApproval/index.vue')
+          }
+        ]
+      },
+      {
+        path: '',
+        name: 'approvalManagement_accountApproval',
+        component: () => import('../views/approvalManagement/accountApproval/index.vue'),
+        children: [
+          {
+            path: '/approvalManagement/accountApproval/index',
+            component: () => import('../views/approvalManagement/accountApproval/index.vue')
           }
         ]
       },

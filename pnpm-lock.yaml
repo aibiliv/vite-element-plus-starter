@@ -19,6 +19,7 @@ specifiers:
   vue: ^3.2.25
   vue-router: '4'
   vue-tsc: ^0.29.8
+  vuex: ^4.0.2
 
 dependencies:
   '@element-plus/icons-vue': 1.1.4_vue@3.2.31
@@ -34,6 +35,7 @@ dependencies:
   unplugin-vue-components: 0.18.5_vite@2.9.1+vue@3.2.31
   vue: 3.2.31
   vue-router: 4.0.14_vue@3.2.31
+  vuex: 4.0.2_vue@3.2.31
 
 devDependencies:
   '@types/js-cookie': 3.0.2
@@ -2078,6 +2080,15 @@ packages:
       '@vue/runtime-dom': 3.2.31
       '@vue/server-renderer': 3.2.31_vue@3.2.31
       '@vue/shared': 3.2.31
+    dev: false
+
+  /vuex/4.0.2_vue@3.2.31:
+    resolution: {integrity: sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q==}
+    peerDependencies:
+      vue: ^3.0.2
+    dependencies:
+      '@vue/devtools-api': 6.1.4
+      vue: 3.2.31
     dev: false
 
   /webpack-sources/3.2.3:

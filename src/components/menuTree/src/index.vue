@@ -10,7 +10,13 @@
           <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
           <span>{{ item[title] }}</span>
         </template>
-        <el-menu-item v-for="(child, index1) in item.children" :key="index1" :index="child[index]">
+        <el-menu-item
+          :ref="'menuItem' + child.name"
+          v-for="(child, index1) in item.children"
+          :key="index1"
+          :index="child[index]"
+          @click.native="($event) => clickItem(child, $event)"
+        >
           <!-- <component v-if="child[icon]" :is="`el-icon-${toLine(child[icon])}`"></component> -->
           <span>{{ child[title] }}</span>
         </el-menu-item>
@@ -22,7 +28,9 @@
 <script setup lang="ts">
 import { MenuItem } from './types'
 import { defineProps } from 'vue'
-import { toLine } from '@/utils'
+import { toLine } from '@/utils/index.ts'
+const instance = getCurrentInstance()
+const router = useRouter()
 let props = defineProps({
   menus: {
     type: Array as PropType<any[]>,
@@ -54,9 +62,29 @@ let props = defineProps({
     default: 'children'
   }
 })
-export default defineComponent({
-  name: 'MenuTree'
-})
+// export default defineComponent({
+//   name: 'MenuTree'
+// })
+const clickItem = (menu: MenuItem, $event: EventTarget) => {
+  instance.ctx.$refs['menuItem' + menu.name][0].active = true
+  console.log('$event', instance.ctx.$refs['menuItem' + menu.name])
+
+  if (menu.name === '项目审批') {
+    router.push({
+      name: 'approvalManagement_projectApproval',
+      params: {
+        name: menu.name
+      }
+    })
+  } else {
+    router.push({
+      name: 'approvalManagement_accountApproval',
+      params: {
+        name: menu.name
+      }
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

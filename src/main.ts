@@ -1,12 +1,13 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/index'
+import store from './store/index'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons-vue'
 import { toLine } from './utils/index'
 import yxUI from './components'
-import api from '@/http/api.js'
+import api from '@/http/api'
 // import '~/styles/index.scss'
 const app = createApp(App)
 
