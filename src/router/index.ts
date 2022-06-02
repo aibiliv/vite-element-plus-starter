@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Layout from '../layout/Layout.vue'
 import Home from '../views/Home.vue'
-const routes: RouteRecordRaw[] = [
+export const constRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'login',
@@ -12,7 +12,34 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/errorPage/404.vue')
   },
   {
-    path: '/',
+    path: '',
+    component: Layout,
+    redirect: '/welcome',
+    children: [
+      {
+        path: '/welcome',
+        component: Home
+      }
+      // {
+      //   path: '/approvalManagement/projectApproval/index',
+      //   name: 'approvalManagement_projectApproval',
+      //   component: () => import('../views/approvalManagement/projectApproval/index.vue')
+      // }
+    ]
+  }
+]
+export const asyncRoutes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/Login.vue')
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/errorPage/404.vue')
+  },
+  {
+    path: '',
     component: Layout,
     redirect: '/welcome',
     children: [
@@ -25,27 +52,19 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/menu/index.vue')
       },
       {
-        path: '',
+        path: '/approvalManagement/projectApproval/index',
         name: 'approvalManagement_projectApproval',
-        component: () => import('../views/approvalManagement/projectApproval/index.vue'),
-        children: [
-          {
-            path: '',
-            name: 'approvalManagement_projectApproval',
-            component: () => import('../views/approvalManagement/projectApproval/index.vue')
-          }
-        ]
+        component: () => import('../views/approvalManagement/projectApproval/index.vue')
       },
       {
-        path: '',
+        path: '/approvalManagement/contractApproval/index',
+        name: 'approvalManagement_contractApproval',
+        component: () => import('../views/approvalManagement/contractApproval/index.vue')
+      },
+      {
+        path: '/approvalManagement/accountApproval/index',
         name: 'approvalManagement_accountApproval',
-        component: () => import('../views/approvalManagement/accountApproval/index.vue'),
-        children: [
-          {
-            path: '/approvalManagement/accountApproval/index',
-            component: () => import('../views/approvalManagement/accountApproval/index.vue')
-          }
-        ]
+        component: () => import('../views/approvalManagement/accountApproval/index.vue')
       },
       {
         path: '/table',
@@ -86,7 +105,7 @@ const routes: RouteRecordRaw[] = [
   }
 ]
 const router = createRouter({
-  routes,
+  routes: constRoutes,
   history: createWebHistory()
 })
 export default router

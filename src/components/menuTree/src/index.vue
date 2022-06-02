@@ -10,13 +10,8 @@
           <component v-if="item[icon]" :is="`el-icon-${toLine(item[icon])}`"></component>
           <span>{{ item[title] }}</span>
         </template>
-        <el-menu-item
-          :ref="'menuItem' + child.name"
-          v-for="(child, index1) in item.children"
-          :key="index1"
-          :index="child[index]"
-          @click.native="($event) => clickItem(child, $event)"
-        >
+        <el-menu-item :ref="'menuItem' + child.name" v-for="(child, index1) in item.children" :key="index1" :index="child[index]">
+          <!-- @click.native="($event) => clickItem(child, $event)" -->
           <!-- <component v-if="child[icon]" :is="`el-icon-${toLine(child[icon])}`"></component> -->
           <span>{{ child[title] }}</span>
         </el-menu-item>
@@ -66,8 +61,11 @@ let props = defineProps({
 //   name: 'MenuTree'
 // })
 const clickItem = (menu: MenuItem, $event: EventTarget) => {
-  instance.ctx.$refs['menuItem' + menu.name][0].active = true
-  console.log('$event', instance.ctx.$refs['menuItem' + menu.name])
+  console.log('instance.ctx', instance.ctx)
+
+  const currentMenu = instance.ctx.$refs['menuItem' + menu.name][0].$el
+  console.log('currentMenu', currentMenu.classList)
+  // currentMenu.classList.add('is-active')
 
   if (menu.name === '项目审批') {
     router.push({

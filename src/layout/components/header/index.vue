@@ -6,11 +6,17 @@
 </template>
 
 <script setup lang="ts">
+import { useStore } from 'vuex'
 const router = useRouter()
-const logout = () => {
-  router.push({
-    name: 'login'
-  })
+const store = useStore()
+const logout = async () => {
+  try {
+    await store.dispatch('user/resetToken')
+    // 登录成功重定向
+    router.push({ path: '/login' })
+  } catch (error) {
+    alert(error)
+  }
 }
 </script>
 
