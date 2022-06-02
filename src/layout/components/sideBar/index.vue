@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+import menu from '@/utils/menu.js'
 let props = defineProps<{ collapse: boolean }>()
 const arr = [
   {
@@ -47,9 +48,9 @@ const arr = [
   }
 ]
 let menus = ref(arr)
-const api = inject('$api')
+const $api = inject('$api')
 const getMenu = async () => {
-  const res = await api.menu.findMenuTreeSideBar()
+  const res = await $api.menu.findMenuTreeSideBar()
   sessionStorage.setItem('menuTree', JSON.stringify(res.data))
   menus.value = res.data
 }
