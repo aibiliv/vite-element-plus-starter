@@ -4,7 +4,9 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ColumnItem: typeof import('./components/Table/src/components/ColumnItem.vue')['default']
     Src: typeof import('./components/menuTree/src/index.vue')['default']
+    Table: typeof import('./components/Table/src/index.vue')['default']
   }
 }
 
