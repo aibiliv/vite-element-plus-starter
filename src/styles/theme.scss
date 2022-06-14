@@ -1,5 +1,5 @@
-$theme-color: #1399f8; //主题颜色
-$hover-color: #1581e6; //主题颜色hover/active/导航展开等
+$theme-color: var(--el-color-primary); //主题颜色
+$hover-color: var(--el-color-primary); //主题颜色hover/active/导航展开等
 $error-color: #f5222d; //错误/失败 按钮或提示
 $success-color: #52c41a; //成功/通过 按钮或提示
 $warn-color: #faad14; //成功/通过 按钮或提示

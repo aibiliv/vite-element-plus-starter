@@ -19,12 +19,12 @@ export const constRoutes: RouteRecordRaw[] = [
       {
         path: '/welcome',
         component: Home
+      },
+      {
+        path: '/approvalManagement/projectApproval/index',
+        name: 'approvalManagement_projectApproval',
+        component: () => import('../views/approvalManagement/projectApproval/index.vue')
       }
-      // {
-      //   path: '/approvalManagement/projectApproval/index',
-      //   name: 'approvalManagement_projectApproval',
-      //   component: () => import('../views/approvalManagement/projectApproval/index.vue')
-      // }
     ]
   }
 ]
