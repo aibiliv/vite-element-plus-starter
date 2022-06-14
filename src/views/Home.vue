@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-
+const table = ref()
 let page = ref({
   size: 10,
   current: 1,
@@ -45,16 +45,25 @@ const tableHeader = [
   { prop: 'name', label: '名字' },
   { prop: 'address', label: '地址' }
 ]
+const getList = (val) => {
+  console.log('val', val)
+}
+const clear = () => {
+  table.value.clearSelection()
+}
 </script>
 
 <template>
   <Table
+    ref="table"
     :table-data="tableData"
     v-model:table-header="tableHeader"
     v-model:current-page="page.current"
     v-model:page-size="page.size"
     :total="page.total"
+    @change-page="getList"
   >
     <template #operation="{ scope }"> {{ scope.row.name }} </template>
   </Table>
+  <ElButton @click="clear">清空</ElButton>
 </template>

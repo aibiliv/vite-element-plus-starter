@@ -6,7 +6,7 @@
         ref="table"
         :key="key"
         v-loading.lock="loading"
-        v-bind="$attrs"
+        v-bind="attrs"
         :data="tableData"
         :row-key="rowKey"
         :default-expand-all="defaultExpandAll"
@@ -24,6 +24,7 @@
         element-loading-text="拼命加载中"
         :border="resizable ? true : border"
         :expand-row-keys="expandRow.length > 0 ? expandRow : null"
+        v-on="listeners"
         @selection-change="handleSelectionChange"
         @expand-change="handleExpendChange"
         @filter-change="handleFilterChange"
@@ -65,7 +66,7 @@
           <slot name="append"></slot>
         </template>
       </ElTable>
-      <div v-if="props.showPage" class="page-box">
+      <div v-if="showPage" class="page-box">
         <span>
           <slot name="bottomBtns" />
         </span>
@@ -130,7 +131,7 @@ export default defineComponent({
     lazy: { type: Boolean, default: false },
     load: { type: Function, default: null }
   },
-  setup(props, { slots, expose, emit }) {
+  setup(props, { attrs, listeners, slots, expose, emit }) {
     let selectedCount = ref(0)
     let key = ref(1)
     console.log('key', key)
@@ -200,10 +201,13 @@ export default defineComponent({
     }
     //清除选中
     const clearSelection = () => {
+      console.log('table.value', table.value)
       table.value?.clearSelection()
     }
     return {
       props,
+      attrs,
+      listeners,
       tableHeaderOfPermission,
       getChildrenProps,
       selectable,
@@ -219,14 +223,14 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-.tool-table-box {
-  height: 100%;
-  background: #fff;
-  overflow: hidden;
-  .table-container {
-    height: calc(100% - 90px);
-  }
-}
+// .tool-table-box {
+//   height: 100%;
+//   background: #fff;
+//   overflow: hidden;
+//   .table-container {
+//     height: calc(100% - 90px);
+//   }
+// }
 ::v-deep.el-table {
   // &::before,
   // .el-table__fixed::before,
