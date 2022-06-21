@@ -214,9 +214,7 @@ export default defineComponent({
       })
     }
     const changeColumn = (cols) => {
-      console.log('COLS', cols)
       key.value++ // 保证表格每次重新渲染
-      // this.setCols = cols;
       emit('update:tableHeader', cols)
     }
     const handleSelectionChange = ($event) => {

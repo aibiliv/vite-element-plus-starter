@@ -8,6 +8,7 @@ specifiers:
   axios: ^0.27.2
   element-plus: ^2.1.7
   js-cookie: ^3.0.1
+  lodash: ^4.17.21
   path: ^0.12.7
   sass: ^1.49.11
   sass-loader: ^12.6.0
@@ -19,6 +20,7 @@ specifiers:
   vue: ^3.2.25
   vue-router: '4'
   vue-tsc: ^0.29.8
+  vuedraggable: ^4.1.0
   vuex: ^4.0.2
 
 dependencies:
@@ -27,6 +29,7 @@ dependencies:
   axios: 0.27.2
   element-plus: 2.1.7_vue@3.2.31
   js-cookie: 3.0.1
+  lodash: 4.17.21
   path: 0.12.7
   sass: 1.49.11
   sass-loader: 12.6.0_sass@1.49.11
@@ -35,6 +38,7 @@ dependencies:
   unplugin-vue-components: 0.18.5_vite@2.9.1+vue@3.2.31
   vue: 3.2.31
   vue-router: 4.0.14_vue@3.2.31
+  vuedraggable: 4.1.0_vue@3.2.31
   vuex: 4.0.2_vue@3.2.31
 
 devDependencies:
@@ -1710,6 +1714,10 @@ packages:
       lru-cache: 6.0.0
     dev: true
 
+  /sortablejs/1.14.0:
+    resolution: {integrity: sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==}
+    dev: false
+
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -2080,6 +2088,15 @@ packages:
       '@vue/runtime-dom': 3.2.31
       '@vue/server-renderer': 3.2.31_vue@3.2.31
       '@vue/shared': 3.2.31
+    dev: false
+
+  /vuedraggable/4.1.0_vue@3.2.31:
+    resolution: {integrity: sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==}
+    peerDependencies:
+      vue: ^3.0.1
+    dependencies:
+      sortablejs: 1.14.0
+      vue: 3.2.31
     dev: false
 
   /vuex/4.0.2_vue@3.2.31:

@@ -50,7 +50,7 @@
           <!-- 导入和导出 -->
           <el-upload
             style="display: inline-block; margin-right: 5px; line-height: 16px"
-            v-if="listeners?.import1"
+            v-if="listeners?.import"
             v-permission="attrs['import-permission']"
             accept=".xls,.xlsx"
             :show-file-list="false"
