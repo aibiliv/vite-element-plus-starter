@@ -1,4 +1,3 @@
-console.log('import.meta.env', import.meta.env)
 export default {
   method: 'get',
   // 基础url前缀

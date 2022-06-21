@@ -4,9 +4,7 @@
     :prop="item.prop"
     :fixed="item.fixed"
     :sortable="item.sortable"
-    :show-overflow-tooltip="
-      item.showTooltip ? item.showTooltip : item.showTooltip === false ? false : true
-    "
+    :show-overflow-tooltip="item.showTooltip ? item.showTooltip : item.showTooltip === false ? false : true"
     :formatter="item.formatter"
     :width="item.width"
     :min-width="item.minWidth"
@@ -27,10 +25,7 @@
         </template>
       </ColumnItem>
     </template>
-    <template
-      v-if="(!item.children || item.children.length < 1) && slots[item.prop]"
-      #default="scope"
-    >
+    <template v-if="(!item.children || item.children.length < 1) && slots[item.prop]" #default="scope">
       <slot :name="item.prop" :scope="scope"></slot>
     </template>
   </ElTableColumn>
@@ -45,20 +40,11 @@ export default defineComponent({
     ElTableColumn
   },
   props: {
-    item: {
-      type: Object,
-      default: () => {}
-    },
-    resizable: {
-      type: Boolean,
-      default: false
-    },
+    item: { type: Object, default: () => {} },
+    resizable: { type: Boolean, default: false },
     tableHeader: { type: Array, default: () => [] }
   },
-  setup(props, { slots, expose, emit }) {
-    console.log('slots', slots)
-    console.log('expose', expose)
-    console.log('emit', emit)
+  setup(props, { slots }) {
     const tableHeaderOfPermission = computed(() => {
       return props.tableHeader
     })
@@ -84,7 +70,6 @@ export default defineComponent({
       func(item)
       return props
     }
-
     return {
       slots,
       tableHeaderOfPermission,

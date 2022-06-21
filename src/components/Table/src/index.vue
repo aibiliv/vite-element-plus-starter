@@ -1,6 +1,25 @@
 <template>
   <div ref="tableBox" class="tool-table-box">
-    <div class="table-container">
+    <!-- 控制面板 -->
+    <OperationPanel
+      v-if="showPanel"
+      :sectors="tableHeaderOfPermission"
+      v-bind="attrs"
+      v-model:size="computedSize"
+      v-on="listeners"
+      @changeColumn="changeColumn"
+    >
+      <template #tabs>
+        <slot name="tabs" />
+      </template>
+      <template #leftBtns>
+        <slot name="leftBtns" />
+      </template>
+      <template #rightBtns>
+        <slot name="rightBtns" />
+      </template>
+    </OperationPanel>
+    <div class="table-container" id="table-container">
       <!-- 表格主体 -->
       <ElTable
         ref="table"
@@ -52,10 +71,18 @@
             </template>
           </ColumnItem>
         </slot>
-        <ElTableColumn :fixed="'right'" type="text" :label="'操作'" align="left">
+        <ElTableColumn
+          v-if="showOperation"
+          :fixed="operationFixed || null"
+          :min-width="resizable ? operationColumnWidth : null"
+          align="left"
+          :width="resizable ? operationColumnWidth : null"
+        >
           <!-- 操作列header插槽 -->
           <template #header>
-            <slot name="operationHeader"></slot>
+            <slot name="operationHeader">
+              <span>{{ operationColumnName }}</span>
+            </slot>
           </template>
           <!-- 操作列作用域插槽 -->
           <template #default="scope">
@@ -85,14 +112,16 @@
   </div>
 </template>
 <script>
-import { ref, computed, defineComponent } from 'vue'
+import { ref, computed, defineComponent, nextTick } from 'vue'
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus'
 import ColumnItem from './components/ColumnItem.vue'
+import OperationPanel from './components/OperationPanel.vue'
 export default defineComponent({
   components: {
-    ColumnItem,
+    OperationPanel,
     ElTable,
     ElTableColumn,
+    ColumnItem,
     ElPagination
   },
   props: {
@@ -124,7 +153,7 @@ export default defineComponent({
     },
     height: { type: [String, Number], default: null },
     // maxHeight: { type: [String, Number], default: 550 },
-    maxHeight: { type: [String, Number], default: '100%' },
+    // maxHeight: { type: [String, Number], default: '100%' },
     border: { type: Boolean, default: false },
     size: { type: String, default: 'small' },
     resizable: { type: Boolean, default: true },
@@ -132,15 +161,14 @@ export default defineComponent({
     load: { type: Function, default: null }
   },
   setup(props, { attrs, listeners, slots, expose, emit }) {
+    let maxHeight = ref('550px')
     let selectedCount = ref(0)
     let key = ref(1)
-    console.log('key', key)
-    console.log('expose', expose)
+    let computedSize = ref('default')
     const table = ref()
     const tableHeaderOfPermission = computed(() => {
       return props.tableHeader
     })
-
     const getChildrenProps = (item) => {
       const props = []
       const func = (item) => {
@@ -163,7 +191,6 @@ export default defineComponent({
       func(item)
       return props
     }
-
     const selectable = (row) => {
       // 默认不禁用  如果想要禁用的话  请把想要禁用的那一条数据里手动添加 isSelection = 1 这个字段
       let type = 0
@@ -186,6 +213,12 @@ export default defineComponent({
         maxRow: props.pageSize
       })
     }
+    const changeColumn = (cols) => {
+      console.log('COLS', cols)
+      key.value++ // 保证表格每次重新渲染
+      // this.setCols = cols;
+      emit('update:tableHeader', cols)
+    }
     const handleSelectionChange = ($event) => {
       selectedCount.value = $event.length
       emit('selection-change', $event)
@@ -201,10 +234,21 @@ export default defineComponent({
     }
     //清除选中
     const clearSelection = () => {
-      console.log('table.value', table.value)
       table.value?.clearSelection()
     }
+    onMounted(() => {
+      // maxHeight根据父级高度自适应
+      const box = document.querySelector('#table-container')
+      let observer = new ResizeObserver((mutations) => {
+        maxHeight.value = mutations[0].contentRect.height
+      })
+      observer.observe(box, { attributes: true })
+    })
     return {
+      key,
+      table,
+      maxHeight,
+      computedSize,
       props,
       attrs,
       listeners,
@@ -213,6 +257,7 @@ export default defineComponent({
       selectable,
       sizeChange,
       currentChange,
+      changeColumn,
       handleSelectionChange,
       handleExpendChange,
       handleFilterChange,
@@ -223,15 +268,23 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-// .tool-table-box {
-//   height: 100%;
-//   background: #fff;
-//   overflow: hidden;
-//   .table-container {
-//     height: calc(100% - 90px);
-//   }
-// }
+.tool-table-box {
+  height: 100%;
+  background: #fff;
+  // overflow: hidden;
+  .table-container {
+    height: calc(100%);
+  }
+}
 ::v-deep.el-table {
+  display: flex;
+  flex-direction: column;
+  .el-table__header-wrapper {
+    flex-shrink: 0;
+  }
+  .el-table__body-wrapper {
+    flex-grow: 1;
+  }
   // &::before,
   // .el-table__fixed::before,
   // .el-table__fixed-right::before {
@@ -250,54 +303,54 @@ export default defineComponent({
   td {
     background-color: #fff;
   }
-  &.el-table--mini {
-    th {
-      height: 31px;
-      line-height: 31px;
-    }
-    td {
-      height: 32px;
-      line-height: 32px;
-    }
-    .cell {
-      font-size: 12px;
-      .el-button--text {
-        font-size: 12px;
-      }
-    }
-  }
-  &.el-table--small {
-    th {
-      height: 35px;
-      line-height: 35px;
-    }
-    td {
-      height: 36px;
-      line-height: 36px;
-    }
-    .cell {
-      font-size: 14px;
-      .el-button--text {
-        font-size: 14px;
-      }
-    }
-  }
-  &.el-table--medium {
-    th {
-      height: 41px;
-      line-height: 41px;
-    }
-    td {
-      height: 42px;
-      line-height: 42px;
-    }
-    .cell {
-      font-size: 14px;
-      .el-button--text {
-        font-size: 14px;
-      }
-    }
-  }
+  // &.el-table--mini {
+  //   th {
+  //     height: 31px;
+  //     line-height: 31px;
+  //   }
+  //   td {
+  //     height: 32px;
+  //     line-height: 32px;
+  //   }
+  //   .cell {
+  //     font-size: 12px;
+  //     .el-button--text {
+  //       font-size: 12px;
+  //     }
+  //   }
+  // }
+  // &.el-table--small {
+  //   th {
+  //     height: 35px;
+  //     line-height: 35px;
+  //   }
+  //   td {
+  //     height: 36px;
+  //     line-height: 36px;
+  //   }
+  //   .cell {
+  //     font-size: 14px;
+  //     .el-button--text {
+  //       font-size: 14px;
+  //     }
+  //   }
+  // }
+  // &.el-table--medium {
+  //   th {
+  //     height: 41px;
+  //     line-height: 41px;
+  //   }
+  //   td {
+  //     height: 42px;
+  //     line-height: 42px;
+  //   }
+  //   .cell {
+  //     font-size: 14px;
+  //     .el-button--text {
+  //       font-size: 14px;
+  //     }
+  //   }
+  // }
   .cell {
     .el-button--text {
       padding: 0;
