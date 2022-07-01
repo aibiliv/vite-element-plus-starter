@@ -67,8 +67,7 @@ export default defineComponent({
     const finishMove = () => {
       changeCheck()
     }
-
-    return { attrs, listeners, showColumn, onMove, finishMove }
+    return { attrs, listeners, showColumn, onMove, finishMove, changeCheck }
   }
 })
 </script>
