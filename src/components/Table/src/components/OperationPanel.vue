@@ -106,23 +106,13 @@ export default defineComponent({
       })
     })
 
-    const changeSize = (size) => {
-      emit('update:size', size)
-    }
+    const changeSize = (size) => emit('update:size', size)
 
-    const handleSelectionChange = (evt) => {
-      console.log('evt', evt)
-      emit('changeColumn', evt)
-    }
-
+    const handleSelectionChange = (evt) => emit('changeColumn', evt)
     // 导入
-    const importHandle = (params) => {
-      emit('import', params)
-    }
+    const importHandle = (params) => emit('import', params)
     // 导出
-    const exportHandle = () => {
-      emit('export')
-    }
+    const exportHandle = () => emit('export')
     return {
       attrs,
       listeners,

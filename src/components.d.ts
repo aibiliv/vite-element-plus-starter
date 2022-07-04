@@ -5,7 +5,6 @@
 declare module 'vue' {
   export interface GlobalComponents {
     ColumnItem: typeof import('./components/Table/src/components/ColumnItem.vue')['default']
-    ElTablePlus: typeof import('./components/Table/src/ElTablePlus.vue')['default']
     OperationPanel: typeof import('./components/Table/src/components/OperationPanel.vue')['default']
     Src: typeof import('./components/menuTree/src/index.vue')['default']
     TableColumnSetting: typeof import('./components/Table/src/components/TableColumnSetting.vue')['default']
