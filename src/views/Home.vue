@@ -112,7 +112,16 @@ let tableData = ref([
 ])
 let tableHeader = ref([
   { prop: 'date', label: '日期', width: '600px' },
-  { prop: 'name', label: '名字', width: '600px' },
+  {
+    prop: 'name',
+    label: '名字',
+    width: '600px',
+    align: 'center',
+    children: [
+      { prop: 'date', label: '名字1', width: '300px', formatter: () => '66666' },
+      { prop: 'address', label: '名字2', width: '300px' }
+    ]
+  },
   { prop: 'address', label: '地址', width: '600px' }
 ])
 const getList = (val) => {

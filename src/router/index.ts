@@ -105,7 +105,8 @@ export const asyncRoutes = [
   }
 ]
 const router = createRouter({
-  routes: constRoutes,
+  routes: asyncRoutes,
   history: createWebHistory()
 })
+// router.addRoute(asyncRoutes)
 export default router
