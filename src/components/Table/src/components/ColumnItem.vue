@@ -31,7 +31,7 @@
   </ElTableColumn>
 </template>
 
-<script>
+<script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { ElTableColumn } from 'element-plus'
 export default defineComponent({
@@ -48,11 +48,11 @@ export default defineComponent({
     const tableHeaderOfPermission = computed(() => {
       return props.tableHeader
     })
-    const getChildrenProps = (item) => {
-      let props = []
-      const func = (item) => {
+    const getChildrenProps = (item: any) => {
+      let props: any[] = []
+      const func = (item: any) => {
         if (item.children && item.children.length > 0) {
-          item.children.forEach((res) => {
+          item.children.forEach((res: any) => {
             if (res.children && res.children.length > 0) {
               getChildrenProps(res.children)
             } else {

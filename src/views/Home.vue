@@ -47,25 +47,25 @@ let tableData = ref([
     id: 4,
     date: '2016-05-03',
     name: 'wangxiaohu4',
-    address: 'dsadfasdfafg'
+    address: 'dsadfasdfafg1'
   },
   {
     id: 4,
     date: '2016-05-03',
     name: 'wangxiaohu4',
-    address: 'dsadfasdfafg'
+    address: 'dsadfasdfafg2'
   },
   {
     id: 4,
     date: '2016-05-03',
     name: 'wangxiaohu4',
-    address: 'dsadfasdfafg'
+    address: 'dsadfasdfafg3'
   },
   {
     id: 4,
     date: '2016-05-03',
-    name: 'wangxiaohu4',
-    address: 'dsadfasdfafg'
+    name: 'wangxiaohu44',
+    address: 'dsadfasdfafg4'
   },
   {
     id: 4,
@@ -118,11 +118,11 @@ let tableHeader = ref([
     width: '600px',
     align: 'center',
     children: [
-      { prop: 'date', label: '名字1', width: '300px', formatter: () => '66666' },
-      { prop: 'address', label: '名字2', width: '300px' }
+      { prop: 'name', label: '名字1', width: '300px' },
+      { prop: 'name', label: '名字2', width: '300px' }
     ]
   },
-  { prop: 'address', label: '地址', width: '600px' }
+  { prop: 'address', label: '地址', width: '600px', formatter: (row) => '范德萨发生的' + row.address }
 ])
 const getList = (val) => {
   console.log('val', val)
@@ -142,7 +142,12 @@ const clear = () => {
       v-model:page-size="page.size"
       :total="page.total"
       @change-page="getList"
+      @import="getList"
+      @export="getList"
     >
+      <template #address="{ scope }">
+        <ElButton size="small" type="primary">范德萨发生的{{ scope.row.address }}</ElButton>
+      </template>
       <template #operation="{ scope }">
         <ElButton size="small" type="primary">{{ scope.row.name }}</ElButton>
       </template>

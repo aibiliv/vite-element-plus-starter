@@ -1,8 +1,8 @@
 <template>
-  <div :class="tabs.length > 0 ? 'OperationPanel' : 'OperationPanel no-tabs'">
+  <div :class="['OperationPanel', tabs.length > 0 ? '' : 'no-tabs']">
     <div class="filter-col-popover clearfix">
       <!-- tab选项卡 -->
-      <div class="tabs" :style="tabs.length === 0 ? { display: 'none' } : {}">
+      <!-- <div class="tabs" :style="tabs.length === 0 ? { display: 'none' } : {}">
         <slot name="tabs">
           <div class="multi-tabs">
             <div v-for="tab in tabs" :key="tab.id" :class="['one-tab', tab.chosen && 'chosen']" @click="tabClick(tab)">
@@ -10,7 +10,7 @@
             </div>
           </div>
         </slot>
-      </div>
+      </div> -->
       <div :class="tabs.length > 0 ? 'btns-right' : 'btns-flex'">
         <!-- 功能性按钮 -->
         <span class="funcBtns">
@@ -48,85 +48,59 @@
             </ElPopover>
           </span>
           <!-- 导入和导出 -->
+          <!-- v-if="attrs?.import" -->
           <el-upload
             style="display: inline-block; margin-right: 5px; line-height: 16px"
-            v-if="listeners?.import"
-            v-permission="attrs['import-permission']"
             accept=".xls,.xlsx"
             :show-file-list="false"
             action=""
             :http-request="importHandle"
           >
-            <SvgIcon icon-class="import" />
+            <el-icon-upload></el-icon-upload>
+            <!-- <SvgIcon icon-class="import" /> -->
           </el-upload>
-          <SvgIcon v-if="listeners?.export" v-permission="attrs['export-permission']" icon-class="export" @click="exportHandle" />
+          <el-icon-download @click="exportHandle"></el-icon-download>
+          <!-- <SvgIcon icon-class="export" @click="exportHandle" /> -->
         </span>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import TableColumnSetting from './TableColumnSetting.vue'
-import { ref, computed, defineComponent } from 'vue'
-export default defineComponent({
-  components: {
-    TableColumnSetting
-    // FullScreen: () => import('@/components/ui/FullScreen')
-  },
-  props: {
-    isCanSetTableColumn: {
-      type: Boolean,
-      default: true
-    },
-    sectors: {
-      type: Array,
-      default: () => []
-    },
-    tabs: {
-      type: Array,
-      default: () => []
-    },
-    showSet: {
-      //是否显示设置面板
-      type: Boolean,
-      default: true
-    }
-  },
-  setup(props, { attrs, listeners, slots, expose, emit }) {
-    let visible = ref(false)
-    let activeName = ref('')
-    let showTableColumnSetting = ref(false)
-
-    const computedSectors = computed(() => {
-      return props.sectors.map((item) => {
-        item.isShow = true
-        if (item.hidden) item.isShow = false
-        return item
-      })
-    })
-
-    const changeSize = (size) => emit('update:size', size)
-
-    const handleSelectionChange = (evt) => emit('changeColumn', evt)
-    // 导入
-    const importHandle = (params) => emit('import', params)
-    // 导出
-    const exportHandle = () => emit('export')
-    return {
-      attrs,
-      listeners,
-      visible,
-      activeName,
-      showTableColumnSetting,
-      computedSectors,
-      changeSize,
-      handleSelectionChange,
-      importHandle,
-      exportHandle
-    }
-  }
+const props = defineProps({
+  isCanSetTableColumn: { type: Boolean, default: true },
+  sectors: { type: Array, default: () => [] },
+  tabs: { type: Array, default: () => [] },
+  //是否显示设置面板
+  showSet: { type: Boolean, default: true }
 })
+const attrs = useAttrs()
+const emit = defineEmits(['update:size', 'changeSize', 'changeColumn', 'import', 'export'])
+const visible = ref(false)
+
+const showTableColumnSetting = ref(false)
+
+const computedSectors = computed(() => {
+  return props.sectors.map((item: any) => {
+    item.isShow = true
+    if (item.hidden) item.isShow = false
+    return item
+  })
+})
+
+onMounted(() => {
+  console.log('attrs', attrs)
+})
+
+const changeSize = (size: String) => emit('update:size', size)
+//列设置勾选
+const handleSelectionChange = (evt: Event) => emit('changeColumn', evt)
+// 导入
+const importHandle = (params: any) => emit('import', params)
+// 导出
+const exportHandle = () => emit('export')
 </script>
 
 <style scoped lang="scss">

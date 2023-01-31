@@ -1,5 +1,5 @@
 <template>
-  <div class="tableColumnSetting">
+  <div class="table-column-setting">
     <draggable v-model="showColumn" class="body" group="table-column-setting" animation="500" :move="onMove" @end="finishMove">
       <template #item="{ element }">
         <div class="row">
@@ -15,50 +15,48 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import draggable from 'vuedraggable'
+//@ts-ignore
 import _ from 'lodash'
-import { ref, watchEffect, defineComponent } from 'vue'
-export default defineComponent({
-  components: {
-    draggable
-  },
-  props: {
-    visible: Boolean,
-    columns: {
-      type: Array,
-      default: () => []
-    }
-  },
 
-  setup(props, { attrs, listeners, slots, expose, emit }) {
-    let showColumn = ref([])
-    const initDsplColumns = (newVal) => {
-      const newArr = _.cloneDeep(newVal)
-      showColumn.value = newArr
-    }
-    watch(props.columns, (newvalue) => initDsplColumns(newvalue), { deep: true, immediate: true })
-    const changeCheck = (e) => {
-      const arr = showColumn.value.map((item) => {
-        if (!item.isShow) {
-          item.hidden = true
-        } else {
-          item.hidden = false
-        }
-        return item
-      })
-      emit('set', arr)
-    }
-    const onMove = (e) => {
-      return e.draggedContext.element.foldable && e.relatedContext.element.foldable
-    }
-    const finishMove = () => changeCheck()
-    return { attrs, listeners, showColumn, onMove, finishMove, changeCheck }
-  }
+const props = defineProps({
+  visible: Boolean,
+  columns: { type: Array, default: () => [] }
 })
+const emit = defineEmits(['set', 'changeSize', 'changeColumn', 'import', 'export'])
+const showColumn = ref([])
+
+watch(props.columns, (newvalue) => initDsplColumns(newvalue), { deep: true })
+
+onMounted(() => {
+  initDsplColumns(props.columns)
+})
+
+const initDsplColumns = (newVal: any[]) => {
+  const newArr = _.cloneDeep(newVal)
+  showColumn.value = newArr
+}
+
+const changeCheck = (e?: any) => {
+  const arr = showColumn.value.map((item) => {
+    //@ts-ignore
+    if (!item.isShow) item.hidden = true
+    //@ts-ignore
+    else item.hidden = false
+    return item
+  })
+  emit('set', arr)
+}
+
+const onMove = (e: any) => {
+  return e.draggedContext.element.foldable && e.relatedContext.element.foldable
+}
+
+const finishMove = () => changeCheck()
 </script>
 <style lang="scss" scoped>
-::v-deep.tableColumnSetting {
+::v-deep.table-column-setting {
   max-height: 60vh;
   overflow-y: auto;
   .row {
