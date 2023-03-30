@@ -1,16 +1,6 @@
 <template>
   <div :class="['OperationPanel', tabs.length > 0 ? '' : 'no-tabs']">
     <div class="filter-col-popover clearfix">
-      <!-- tab选项卡 -->
-      <!-- <div class="tabs" :style="tabs.length === 0 ? { display: 'none' } : {}">
-        <slot name="tabs">
-          <div class="multi-tabs">
-            <div v-for="tab in tabs" :key="tab.id" :class="['one-tab', tab.chosen && 'chosen']" @click="tabClick(tab)">
-              {{ tab.label }}
-            </div>
-          </div>
-        </slot>
-      </div> -->
       <div :class="tabs.length > 0 ? 'btns-right' : 'btns-flex'">
         <!-- 功能性按钮 -->
         <span class="funcBtns">
@@ -21,9 +11,6 @@
           <!-- 其他放在右侧的按钮 -->
           <slot name="rightBtns" />
           <span v-if="showSet" style="margin-left: 15px">
-            <!-- 全屏 -->
-            <!-- <FullScreen style="margin-right: 10px"></FullScreen> -->
-            <!-- <el-icon-fullscreen></el-icon-fullscreen> -->
             <!-- 表格size -->
             <el-dropdown trigger="click" style="margin-right: 10px">
               <el-icon-zoomout></el-icon-zoomout>
@@ -31,7 +18,7 @@
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item v-on:click="changeSize('default')">默认</el-dropdown-item>
-                  <el-dropdown-item v-on:click="changeSize('large ')">宽松</el-dropdown-item>
+                  <el-dropdown-item v-on:click="changeSize('large')">宽松</el-dropdown-item>
                   <el-dropdown-item v-on:click="changeSize('small')">紧凑</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
@@ -41,14 +28,13 @@
               <TableColumnSetting :columns="computedSectors" :visible="showTableColumnSetting" @set="handleSelectionChange" />
               <template #reference>
                 <span v-show="isCanSetTableColumn != false" @click="showTableColumnSetting = true">
-                  <el-icon-setting></el-icon-setting>
+                  <el-icon-setting  slot="reference"></el-icon-setting>
                   <!-- <SvgIcon slot="reference" icon-class="nested"></SvgIcon> -->
                 </span>
               </template>
             </ElPopover>
           </span>
           <!-- 导入和导出 -->
-          <!-- v-if="attrs?.import" -->
           <el-upload
             style="display: inline-block; margin-right: 5px; line-height: 16px"
             accept=".xls,.xlsx"
@@ -57,17 +43,16 @@
             :http-request="importHandle"
           >
             <el-icon-upload></el-icon-upload>
-            <!-- <SvgIcon icon-class="import" /> -->
           </el-upload>
           <el-icon-download @click="exportHandle"></el-icon-download>
-          <!-- <SvgIcon icon-class="export" @click="exportHandle" /> -->
         </span>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="OperationPanel">
+import { ref, computed, defineComponent, defineProps, useAttrs, defineEmits, nextTick } from 'vue'
 import TableColumnSetting from './TableColumnSetting.vue'
 const props = defineProps({
   isCanSetTableColumn: { type: Boolean, default: true },
@@ -90,11 +75,7 @@ const computedSectors = computed(() => {
   })
 })
 
-onMounted(() => {
-  console.log('attrs', attrs)
-})
-
-const changeSize = (size: String) => emit('update:size', size)
+const changeSize = (size: string) => emit('update:size', size)
 //列设置勾选
 const handleSelectionChange = (evt: Event) => emit('changeColumn', evt)
 // 导入
@@ -107,7 +88,7 @@ const exportHandle = () => emit('export')
 ::v-deep.OperationPanel {
   background: transparent;
   padding-top: 10px;
-  border-bottom: 1px solid $border-color;
+  border-bottom: 1px solid #eaeef6;
   margin-bottom: 20px;
   &.no-tabs {
     border: none;
@@ -127,22 +108,22 @@ const exportHandle = () => emit('export')
       height: 40px;
       padding: 0 24px;
       text-align: center;
-      background: $main-background-color;
+      background: #f5f7f9;
       line-height: 40px;
       font-size: 14px;
       color: #303133;
       box-sizing: border-box;
-      border: 1px solid $border-color;
+      border: 1px solid #eaeef6;
       border-left: none;
       cursor: pointer;
       &:first-child {
-        border-left: 1px solid $border-color;
+        border-left: 1px solid #eaeef6;
       }
     }
     .one-tab.chosen {
-      border-top: 2px solid $theme-color;
+      border-top: 2px solid var(--el-color-primary);
       background: #ffffff;
-      color: $theme-color;
+      color: var(--el-color-primary);
       border-bottom: none;
     }
   }
@@ -166,7 +147,7 @@ const exportHandle = () => emit('export')
       font-size: 14px;
       &.el-button--primary {
         background-color: unset;
-        color: $theme-color;
+        color: var(--el-color-primary);
         padding: 8px 12px;
       }
     }
@@ -203,7 +184,7 @@ const exportHandle = () => emit('export')
   .svg-icon {
     cursor: pointer;
     &:hover {
-      color: $theme-color;
+      color: var(--el-color-primary);
     }
   }
 }

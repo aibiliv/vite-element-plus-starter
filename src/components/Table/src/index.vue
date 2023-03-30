@@ -6,7 +6,6 @@
       :sectors="tableHeaderOfPermission"
       v-bind="attrs"
       v-model:size="computedSize"
-      v-on="listeners"
       @changeColumn="changeColumn"
     >
       <template #tabs>
@@ -29,21 +28,16 @@
         :data="tableData"
         :row-key="rowKey"
         :default-expand-all="defaultExpandAll"
-        :summary-method="summaryMethod"
-        :span-method="spanMethod"
-        :show-summary="summaryMethod ? true : false"
         :tree-props="treeProps"
         :height="height"
         :max-height="maxHeight"
         :lazy="lazy"
-        :load="load"
         :size="computedSize"
         :fit="true"
         :stripe="true"
         element-loading-text="拼命加载中"
         :border="resizable ? true : border"
-        :expand-row-keys="expandRow.length > 0 ? expandRow : null"
-        v-on="listeners"
+        :expand-row-keys="expandRow.length > 0 ? expandRow : undefined"
         @selection-change="handleSelectionChange"
         @expand-change="handleExpendChange"
         @filter-change="handleFilterChange"
@@ -57,26 +51,38 @@
           fixed="left"
           align="center"
         />
-        <ElTableColumn width="55" fixed="left" type="index" label="序号" align="left" :resizable="false" />
+        <ElTableColumn
+          width="65"
+          fixed="left"
+          type="index"
+          label="序号"
+          align="left"
+          :resizable="false"
+        />
         <slot>
           <ColumnItem
             :tableHeader="item.children"
-            v-for="(item, index) in props.tableHeader.filter((res) => !res.hidden)"
+            v-for="(item, index) in props.tableHeader.filter(
+              (res) => !res.hidden
+            )"
             :key="index"
             :item="item"
             :resizable="resizable"
           >
-            <template v-for="prop in getChildrenProps(item)" #[prop]="{ scope }">
+            <template
+              v-for="prop in getChildrenProps(item)"
+              #[prop]="{ scope }"
+            >
               <slot :name="prop" :scope="scope"></slot>
             </template>
           </ColumnItem>
         </slot>
         <ElTableColumn
           v-if="showOperation"
-          :fixed="operationFixed || null"
-          :min-width="resizable ? operationColumnWidth : null"
+          :fixed="operationFixed || undefined"
+          :min-width="resizable ? operationColumnWidth : undefined"
           align="left"
-          :width="resizable ? operationColumnWidth : null"
+          :width="resizable ? operationColumnWidth : undefined"
         >
           <!-- 操作列header插槽 -->
           <template #header>
@@ -111,11 +117,12 @@
     </div>
   </div>
 </template>
-<script>
-import { ref, computed, defineComponent, nextTick } from 'vue'
+<script lang="ts">
+import { ref, computed, defineComponent, nextTick, onMounted } from 'vue'
 import { ElTable, ElTableColumn, ElPagination } from 'element-plus'
 import ColumnItem from './components/ColumnItem.vue'
 import OperationPanel from './components/OperationPanel.vue'
+import { TableHeader } from 'element-plus/es/components/table/src/table-header'
 export default defineComponent({
   components: {
     OperationPanel,
@@ -142,8 +149,6 @@ export default defineComponent({
     pageSize: { type: Number, default: 15 },
     operationColumnWidth: { type: Number, default: 220 }, // 操作列宽度
     operationColumnName: { type: String, default: '操作' }, //操作列名称
-    spanMethod: { type: Function, default: null }, //合并行列的计算方法
-    summaryMethod: { type: Function, default: null }, //合计计算方法
     operationFixed: { type: String, default: 'right' }, //操作列固定
     treeProps: {
       type: Object,
@@ -153,27 +158,24 @@ export default defineComponent({
     },
     height: { type: [String, Number], default: null },
     // maxHeight: { type: [String, Number], default: 550 },
-    // maxHeight: { type: [String, Number], default: '100%' },
     border: { type: Boolean, default: false },
     size: { type: String, default: 'small' },
     resizable: { type: Boolean, default: true },
-    lazy: { type: Boolean, default: false },
-    load: { type: Function, default: null }
+    lazy: { type: Boolean, default: false }
   },
-  setup(props, { attrs, listeners, slots, expose, emit }) {
-    let maxHeight = ref('550px')
-    let selectedCount = ref(0)
+  setup(props, { attrs, slots, expose, emit }) {
+    let maxHeight = ref<string | number>('550px')
     let key = ref(1)
-    let computedSize = ref('default')
+    let computedSize = ref<string>('default')
     const table = ref()
     const tableHeaderOfPermission = computed(() => {
       return props.tableHeader
     })
-    const getChildrenProps = (item) => {
-      const props = []
-      const func = (item) => {
+    const getChildrenProps = (item: any) => {
+      const props: any[] = []
+      const func = (item: any) => {
         if (item.children && item.children.length > 0) {
-          item.children.forEach((res) => {
+          item.children.forEach((res: any) => {
             if (res.children && res.children.length > 0) {
               getChildrenProps(res.children)
             } else {
@@ -191,7 +193,7 @@ export default defineComponent({
       func(item)
       return props
     }
-    const selectable = (row) => {
+    const selectable = (row: any) => {
       // 默认不禁用  如果想要禁用的话  请把想要禁用的那一条数据里手动添加 isSelection = 1 这个字段
       let type = 0
       if (row.isSelection) {
@@ -199,35 +201,32 @@ export default defineComponent({
       }
       return type === 0
     }
-    const sizeChange = (val) => {
+    const sizeChange = (val: number) => {
       emit('update:current-page', 1)
       emit('update:page-size', val)
-      emit('change-page', { page: 1, limit: val, pageNo: 1, maxRow: val })
+      emit('change-page', { page: 1, limit: val })
     }
-    const currentChange = (val) => {
+    const currentChange = (val: number) => {
       emit('update:current-page', val)
       emit('change-page', {
         page: val,
-        limit: props.pageSize,
-        pageNo: val,
-        maxRow: props.pageSize
+        limit: props.pageSize
       })
     }
-    const changeColumn = (cols) => {
+    const changeColumn = (cols: TableHeader[]) => {
       key.value++ // 保证表格每次重新渲染
       emit('update:tableHeader', cols)
     }
-    const handleSelectionChange = ($event) => {
-      selectedCount.value = $event.length
-      emit('selection-change', $event)
+    const handleSelectionChange = (selection: any[]) => {
+      emit('selection-change', selection)
     }
-    const handleExpendChange = (row, expend) => {
+    const handleExpendChange = (row: any, expend: any) => {
       emit('expand-change', { row, expend })
     }
-    const handleFilterChange = (filters) => {
+    const handleFilterChange = (filters: any[]) => {
       console.log(filters)
     }
-    const toggleRowSelection = (item, status) => {
+    const toggleRowSelection = (item: any, status: boolean) => {
       table.value?.toggleRowSelection(item, status)
     }
     //清除选中
@@ -236,10 +235,12 @@ export default defineComponent({
     }
     onMounted(() => {
       // maxHeight根据父级高度自适应
-      const box = document.querySelector('#table-container')
+      const box = document.querySelector('#table-container') as HTMLElement
       let observer = new ResizeObserver((mutations) => {
         maxHeight.value = mutations[0].contentRect.height
       })
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       observer.observe(box, { attributes: true })
     })
     return {
@@ -249,7 +250,6 @@ export default defineComponent({
       computedSize,
       props,
       attrs,
-      listeners,
       tableHeaderOfPermission,
       getChildrenProps,
       selectable,
