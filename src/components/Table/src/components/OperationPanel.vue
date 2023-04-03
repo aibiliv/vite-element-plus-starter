@@ -12,7 +12,7 @@
           <slot name="rightBtns" />
           <span v-if="showSet" style="margin-left: 15px">
             <!-- 表格size -->
-            <el-dropdown trigger="click" style="margin-right: 10px">
+            <el-dropdown trigger="click">
               <el-icon-zoomout></el-icon-zoomout>
               <!-- <SvgIcon icon-class="size"></SvgIcon> -->
               <template #dropdown>
@@ -24,11 +24,11 @@
               </template>
             </el-dropdown>
             <!-- 设置表格列 -->
-            <ElPopover style="margin-right: 10px" v-model="visible" placement="bottom" title="列展示 ( 可拖动 )" trigger="click">
+            <ElPopover v-model="visible" placement="bottom" title="列展示 ( 可拖动 )" trigger="click">
               <TableColumnSetting :columns="computedSectors" :visible="showTableColumnSetting" @set="handleSelectionChange" />
               <template #reference>
                 <span v-show="isCanSetTableColumn != false" @click="showTableColumnSetting = true">
-                  <el-icon-setting  slot="reference"></el-icon-setting>
+                  <el-icon-setting slot="reference"></el-icon-setting>
                   <!-- <SvgIcon slot="reference" icon-class="nested"></SvgIcon> -->
                 </span>
               </template>
@@ -36,7 +36,7 @@
           </span>
           <!-- 导入和导出 -->
           <el-upload
-            style="display: inline-block; margin-right: 5px; line-height: 16px"
+            style="display: inline-block; line-height: 16px"
             accept=".xls,.xlsx"
             :show-file-list="false"
             action=""
@@ -181,7 +181,13 @@ const exportHandle = () => emit('export')
       align-items: center;
     }
   }
-  .svg-icon {
+  .el-dropdown {
+    vertical-align: baseline;
+  }
+  .el-tooltip__trigger {
+    color: #000;
+  }
+  svg {
     cursor: pointer;
     &:hover {
       color: var(--el-color-primary);
