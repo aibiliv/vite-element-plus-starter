@@ -1,13 +1,7 @@
 <template>
   <div ref="tableBox" class="tool-table-box">
     <!-- 控制面板 -->
-    <OperationPanel
-      v-if="showPanel"
-      :sectors="tableHeaderOfPermission"
-      v-bind="attrs"
-      v-model:size="computedSize"
-      @changeColumn="changeColumn"
-    >
+    <OperationPanel v-if="showPanel" :sectors="tableHeaderOfPermission" v-bind="attrs" v-model:size="computedSize" @changeColumn="changeColumn">
       <template #tabs>
         <slot name="tabs" />
       </template>
@@ -51,28 +45,16 @@
           fixed="left"
           align="center"
         />
-        <ElTableColumn
-          width="65"
-          fixed="left"
-          type="index"
-          label="序号"
-          align="left"
-          :resizable="false"
-        />
+        <ElTableColumn width="65" fixed="left" type="index" label="序号" align="left" :resizable="false" />
         <slot>
           <ColumnItem
             :tableHeader="item.children"
-            v-for="(item, index) in props.tableHeader.filter(
-              (res) => !res.hidden
-            )"
+            v-for="(item, index) in props.tableHeader.filter((res) => !res.hidden)"
             :key="index"
             :item="item"
             :resizable="resizable"
           >
-            <template
-              v-for="prop in getChildrenProps(item)"
-              #[prop]="{ scope }"
-            >
+            <template v-for="prop in getChildrenProps(item)" #[prop]="{ scope }">
               <slot :name="prop" :scope="scope"></slot>
             </template>
           </ColumnItem>
@@ -237,7 +219,8 @@ export default defineComponent({
       // maxHeight根据父级高度自适应
       const box = document.querySelector('#table-container') as HTMLElement
       let observer = new ResizeObserver((mutations) => {
-        maxHeight.value = mutations[0].contentRect.height
+        const [{ contentRect }] = mutations
+        maxHeight.value = contentRect.height
       })
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
