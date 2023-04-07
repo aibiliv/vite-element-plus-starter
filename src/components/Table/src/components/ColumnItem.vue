@@ -13,21 +13,13 @@
     :render-header="item.renderHeader"
   >
     <template v-if="shouldRenderChildren">
-      <ColumnItem
-        v-for="(subItem, index) in visibleChildren"
-        :key="index"
-        :item="subItem"
-        :table-header="subItem.children"
-      >
+      <ColumnItem v-for="(subItem, index) in visibleChildren" :key="index" :item="subItem" :table-header="subItem.children">
         <template v-for="prop in getChildProps(subItem)" #[prop]="{ scope }">
           <slot :name="prop" :scope="scope" />
         </template>
       </ColumnItem>
     </template>
-    <template
-      v-if="(!item.children || item.children.length < 1) && slots[item.prop]"
-      #default="scope"
-    >
+    <template v-if="(!item.children || item.children.length < 1) && slots[item.prop]" #default="scope">
       <slot :name="item.prop" :scope="scope"></slot>
     </template>
   </ElTableColumn>
@@ -56,7 +48,7 @@ interface TableColumn {
 interface Props {
   resizable: boolean
   item: TableColumn
-  tableHeader: TableHeader[]
+  tableHeader: TableColumn[]
 }
 
 export default defineComponent({
@@ -65,27 +57,14 @@ export default defineComponent({
     ElTableColumn
   },
   props: {
-    item: {
-      type: Object as PropType<TableColumn>,
-      default: () => ({})
-    },
-    resizable: {
-      type: Boolean,
-      default: false
-    },
-    tableHeader: {
-      type: Array as PropType<TableColumn[]>,
-      default: () => []
-    }
+    item: { type: Object as PropType<TableColumn>, default: () => {} },
+    resizable: { type: Boolean, default: false },
+    tableHeader: { type: Array as PropType<TableColumn[]>, default: () => [] }
   },
+  
   setup(props: any, { slots }) {
-    const visibleChildren = computed(
-      () =>
-        props.item.children?.filter((child: TableColumn) => !child.hidden) ?? []
-    )
-    const shouldRenderChildren = computed(
-      () => visibleChildren.value.length > 0
-    )
+    const visibleChildren = computed(() => props.item.children?.filter((child: TableColumn) => !child.hidden) ?? [])
+    const shouldRenderChildren = computed(() => visibleChildren.value.length > 0)
     const hasDefaultSlot = computed(() => !!slots[props.item.prop])
     const getChildProps: any = (item: TableColumn) =>
       item.children

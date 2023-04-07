@@ -176,10 +176,10 @@ export default defineComponent({
       return props
     }
     const selectable = (row: any) => {
-      // 默认不禁用  如果想要禁用的话  请把想要禁用的那一条数据里手动添加 isSelection = 1 这个字段
+      // 默认不禁用  如果想要禁用的话  请把想要禁用的那一条数据里手动添加 uncheckable = 1 这个字段
       let type = 0
-      if (row.isSelection) {
-        type = row.isSelection
+      if (row.uncheckable) {
+        type = row.uncheckable
       }
       return type === 0
     }
@@ -257,7 +257,7 @@ export default defineComponent({
     height: calc(100%);
   }
 }
-::v-deep.el-table {
+::v-deep(.el-table) {
   display: flex;
   flex-direction: column;
   .el-table__header-wrapper {
@@ -357,7 +357,7 @@ export default defineComponent({
     }
   }
 }
-::v-deep.page-box {
+::v-deep(.page-box) {
   padding-top: 10px;
   background-color: #fff;
   display: flex;

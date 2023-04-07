@@ -1,7 +1,7 @@
 <template>
-  <div :class="['OperationPanel', tabs.length > 0 ? '' : 'no-tabs']">
+  <div :class="['operation-panel']">
     <div class="filter-col-popover clearfix">
-      <div :class="tabs.length > 0 ? 'btns-right' : 'btns-flex'">
+      <div class="btns-flex">
         <!-- 功能性按钮 -->
         <span class="funcBtns">
           <!-- 放在左侧的按钮 -->
@@ -13,8 +13,7 @@
           <span v-if="showSet" style="margin-left: 15px">
             <!-- 表格size -->
             <el-dropdown trigger="click">
-              <el-icon-zoomout></el-icon-zoomout>
-              <!-- <SvgIcon icon-class="size"></SvgIcon> -->
+              <el-icon-histogram></el-icon-histogram>
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item v-on:click="changeSize('default')">默认</el-dropdown-item>
@@ -29,7 +28,6 @@
               <template #reference>
                 <span v-show="isCanSetTableColumn != false" @click="showTableColumnSetting = true">
                   <el-icon-setting slot="reference"></el-icon-setting>
-                  <!-- <SvgIcon slot="reference" icon-class="nested"></SvgIcon> -->
                 </span>
               </template>
             </ElPopover>
@@ -85,46 +83,16 @@ const exportHandle = () => emit('export')
 </script>
 
 <style scoped lang="scss">
-::v-deep.OperationPanel {
+.operation-panel {
   background: transparent;
   padding-top: 10px;
   border-bottom: 1px solid #eaeef6;
-  margin-bottom: 20px;
-  &.no-tabs {
-    border: none;
-    margin-bottom: 0;
-  }
+  // margin-bottom: 0px;
+  border: none;
   .tabs {
     display: inline-block;
-    .el-tabs__header {
+    :deep(.el-tabs__header) {
       margin-bottom: 0;
-    }
-  }
-  .multi-tabs {
-    display: flex;
-    margin-bottom: -1px;
-    .one-tab {
-      width: auto;
-      height: 40px;
-      padding: 0 24px;
-      text-align: center;
-      background: #f5f7f9;
-      line-height: 40px;
-      font-size: 14px;
-      color: #303133;
-      box-sizing: border-box;
-      border: 1px solid #eaeef6;
-      border-left: none;
-      cursor: pointer;
-      &:first-child {
-        border-left: 1px solid #eaeef6;
-      }
-    }
-    .one-tab.chosen {
-      border-top: 2px solid var(--el-color-primary);
-      background: #ffffff;
-      color: var(--el-color-primary);
-      border-bottom: none;
     }
   }
   .btns-flex {
@@ -143,7 +111,7 @@ const exportHandle = () => emit('export')
         }
       }
     }
-    .el-button--small {
+    :deep(.el-button--small) {
       font-size: 14px;
       &.el-button--primary {
         background-color: unset;
@@ -151,12 +119,12 @@ const exportHandle = () => emit('export')
         padding: 8px 12px;
       }
     }
-    .el-tag {
+    :deep(.el-tag) {
       line-height: 32px;
     }
     .table-settings {
       line-height: 32px;
-      .el-button {
+      :deep(.el-button) {
         margin-left: 15px;
       }
       .svg-icon + .svg-icon {
@@ -164,27 +132,21 @@ const exportHandle = () => emit('export')
       }
     }
   }
-  .btns-right {
-    float: right;
-    margin-top: -10px;
-  }
+
   .filter-col-popover {
     height: 32px;
     .filter-col {
       margin-left: 4px;
-      // float: right;
-      // border: 1px solid gray;
-      // margin-bottom: 15px;
       width: 32px;
       display: inline-flex;
       justify-content: center;
       align-items: center;
     }
   }
-  .el-dropdown {
+  :deep(.el-dropdown) {
     vertical-align: baseline;
   }
-  .el-tooltip__trigger {
+  :deep(.el-tooltip__trigger) {
     color: #000;
   }
   svg {

@@ -61,7 +61,7 @@ const finishMove = () => changeCheck()
 </script>
 
 <style lang="scss" scoped>
-::v-deep.table-column-setting {
+.table-column-setting {
   max-height: 60vh;
   overflow-y: auto;
   .row {
